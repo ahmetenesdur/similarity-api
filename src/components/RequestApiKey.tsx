@@ -1,9 +1,9 @@
 "use client";
 
-import { FC, FormEvent, useState } from "react";
-import { toast } from "@/ui/Toast";
 import { createApiKey } from "@/helpers/create-api-key";
 import { Key } from "lucide-react";
+import { FC, FormEvent, useState } from "react";
+import { toast } from "@/ui/Toast";
 import LargeHeading from "@/ui/LargeHeading";
 import Paragraph from "@/ui/Paragraph";
 import CopyButton from "@/components/CopyButton";
@@ -62,8 +62,9 @@ const RequestApiKey: FC = () => {
           {/* Show a copy icon if API key was generated successfully */}
           {apiKey ? (
             <CopyButton
-              className="absolute inset-y-0 right-0 animate-in fade-in duration-300"
+              type="button"
               valueToCopy={apiKey}
+              className="absolute inset-y-0 right-0 animate-in fade-in duration-300"
             />
           ) : null}
           <Input
