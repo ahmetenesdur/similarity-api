@@ -13,6 +13,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "@/ui/Toast";
 import { createApiKey } from "@/helpers/create-api-key";
 import { useRouter } from "next/navigation";
+import { revokeApiKey } from "@/helpers/revoke-api-key";
 
 interface ApiKeyOptionsProps {
   apiKeyId: string;
@@ -28,7 +29,7 @@ const ApiKeyOptions: FC<ApiKeyOptionsProps> = ({ apiKeyId, apiKeyKey }) => {
     setIsCreatingNew(true);
 
     try {
-      // await revokeApiKey({ keyId: apiKeyId });
+      await revokeApiKey({ keyId: apiKeyId });
       await createApiKey();
       router.refresh();
     } catch (error) {
@@ -39,6 +40,23 @@ const ApiKeyOptions: FC<ApiKeyOptionsProps> = ({ apiKeyId, apiKeyKey }) => {
       });
     } finally {
       setIsCreatingNew(false);
+    }
+  };
+
+  const revokeCurrentApiKey = async () => {
+    setIsRevoking(true);
+
+    try {
+      await revokeApiKey({ keyId: apiKeyId });
+      router.refresh();
+    } catch (error) {
+      toast({
+        title: "Error",
+        message: "An error occurred while revoking the API key",
+        type: "error",
+      });
+    } finally {
+      setIsRevoking(false);
     }
   };
 
@@ -74,9 +92,13 @@ const ApiKeyOptions: FC<ApiKeyOptionsProps> = ({ apiKeyId, apiKeyKey }) => {
           Copy
         </DropdownMenuItem>
 
-        <DropdownMenuItem>Create new key</DropdownMenuItem>
+        <DropdownMenuItem onClick={createNewKey}>
+          Create new key
+        </DropdownMenuItem>
 
-        <DropdownMenuItem>Revoke key</DropdownMenuItem>
+        <DropdownMenuItem onClick={revokeCurrentApiKey}>
+          Revoke key
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
