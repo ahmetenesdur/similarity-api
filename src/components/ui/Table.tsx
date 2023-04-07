@@ -49,7 +49,7 @@ const columns = columnsDraft.map((col) => {
 const Table: FC<TableProps> = ({ userRequests }) => {
   const { theme: applicationTheme } = useTheme();
 
-  const darkTheme = createTheme({
+  const theme = createTheme({
     palette: {
       mode: applicationTheme === "light" ? "light" : "dark",
     },
@@ -64,7 +64,7 @@ const Table: FC<TableProps> = ({ userRequests }) => {
     col5: request.status,
   }));
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={theme}>
       <DataGrid
         style={{
           backgroundColor: applicationTheme === "light" ? "white" : "#152238",
