@@ -11,7 +11,7 @@ const redis = new Redis({
 
 const ratelimit = new Ratelimit({
   redis: redis,
-  limiter: Ratelimit.slidingWindow(5, "1 h"),
+  limiter: Ratelimit.slidingWindow(50, "1 h"),
 });
 
 export default withAuth(
@@ -34,7 +34,7 @@ export default withAuth(
     // Manage route protection
     const token = await getToken({ req });
     const isAuth = !!token;
-    const isAuthPage = pathname.startsWith("/login");
+    const isAuthPage = req.nextUrl.pathname.startsWith("/login");
 
     const sensitiveRoutes = ["/dashboard"];
 
